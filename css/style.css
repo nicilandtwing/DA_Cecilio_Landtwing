@@ -1,3 +1,7 @@
+body{
+    background-color: aqua;
+}
+
 #welcome-image{
     background-image: url("../images/background.jpg");
     background-repeat: no-repeat;
@@ -12,4 +16,8 @@
 
 #welcome-text-logo{
     height: 7vh;
+}
+
+.test-border{
+    border: 2px dotted red;
 }
