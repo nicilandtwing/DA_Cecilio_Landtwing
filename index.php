@@ -6,6 +6,9 @@
     <title>Formula 1 DB</title>
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <?php
+                require_once "php/config.php";
+    ?>
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark navbar-expand-md">
@@ -48,20 +51,113 @@
     <section id="last-race-current-scores" class="container">
 
         <div class="row">
-            <div class="col-lg-9 col-md-10">
+            <div class="col-lg-7 col-md-10">
                 <h1>Letztes Rennergebnis</h1>
-                <p class="test-border">Hallo</p>
                 <?php
-                require_once "/php/config.php";
+                  $latest_race_sql = "SELECT * FROM v_latest_race";
+                  if($result = mysqli_query($link, $latest_race_sql)){
+                    if(mysqli_num_rows($result) > 0){
+                      while($row = mysqli_fetch_array($result)){
+                        echo '<p> Das letzte Rennen war der <strong>' . $row['year'] . ' ' . $row['racename'] . '</strong> auf der Strecke <strong>' . $row['circuitname'] . '</strong> in <strong>' . $row['location'] . '.</strong></p>';
+                      }
+                    }
+                  }
+                ?>
+
+                <?php
+                   $latest_race_result_sql = "SELECT * FROM v_latest_race_result";
+                   if($result = mysqli_query($link, $latest_race_result_sql)){
+                   if(mysqli_num_rows($result) > 0){
+                       echo '<table class="table table-bordered table-striped">';
+                           echo "<thead>";
+                               echo "<tr>";
+                                   echo "<th>Position</th>";
+                                   echo "<th>Fahrer</th>";
+                                   echo "<th>Team</th>";
+                                   echo "<th>Rennzeit</th>";
+                                   echo "<th>Status</th>";
+               echo "<th>Gestartet von</th";
+                               echo "</tr>";
+                           echo "</thead>";
+                           echo "<tbody>";
+                           while($row = mysqli_fetch_array($result)){
+                               echo "<tr>";
+                                   echo "<td>" . $row['Position'] . "</td>";
+                                   echo "<td>" . $row['Fahrervorname'] . " " . $row['Fahrernachname'] . "</td>";
+                                   echo "<td>" . $row['constructor_name'] . "</td>";
+                                   echo "<td>" . $row['time'] . "</td>";
+                                   echo "<td>" . $row['status'] . "</td>";
+               echo "<td>" . $row['grid'] . "</td>";
+                               echo "</tr>";
+                           }
+                          }
+                        }
+                           echo "</tbody>";                            
+                       echo "</table>";
                 ?>
                 
             </div>
-            <div class="col-lg-3 col-md-10">
+            <div class="col-lg-5 col-md-10">
                 <h1>Fahrer-Rangliste</h1>
-                <p class="test-border">Hallo</p>
+                <p>Die Tabelle zeigt die momentane Rangliste.</p>
+                <?php
+                   $current_drivers_position_sql = "SELECT * FROM v_current_drivers_position LIMIT 5";
+                   if($result = mysqli_query($link, $current_drivers_position_sql)){
+                   if(mysqli_num_rows($result) > 0){
+                       echo '<table class="table table-bordered table-striped table-hover table-responsive">';
+                           echo "<thead>";
+                               echo "<tr>";
+                                   echo "<th>Position</th>";
+                                   echo "<th>Punkte</th>";
+                                   echo "<th>Fahrer</th>";
+                                   echo "<th>Team</th>";
+                                   echo "<th>Anzahl Siege</th>";
+                               echo "</tr>";
+                           echo "</thead>";
+                           echo "<tbody>";
+                           while($row = mysqli_fetch_array($result)){
+                               echo "<tr>";
+                                   echo "<td>" . $row['position'] . "</td>";
+                                   echo "<td>" . $row['points'] . "</td>";
+                                   echo "<td>" . $row['forename'] . " " . $row['surname'] . "</td>";
+                                   echo "<td>" . $row['constructor_name'] . "</td>";
+                                   echo "<td>" . $row['wins'] . "</td>";
+                               echo "</tr>";
+                           }
+                           echo "</tbody>";                            
+                       echo "</table>";
+                          }
+                        }
+                ?>
 
                 <h1>Teams-Rangliste</h1>
-                <p class="test-border">Hallo</p>
+                <?php
+                   $current_constructors_position_sql = "SELECT * FROM v_current_constructors_position";
+                   if($result = mysqli_query($link, $current_constructors_position_sql)){
+                   if(mysqli_num_rows($result) > 0){
+                       echo '<table class="table table-bordered table-striped table-hover table-responsive">';
+                           echo "<thead>";
+                               echo "<tr>";
+                                   echo "<th>Position</th>";
+                                   echo "<th>Punkte</th>";
+                                   echo "<th>Team</th>";
+                                   echo "<th>Anzahl Siege</th>";
+                               echo "</tr>";
+                           echo "</thead>";
+                           echo "<tbody>";
+                           while($row = mysqli_fetch_array($result)){
+                               echo "<tr>";
+                                   echo "<td>" . $row['position'] . "</td>";
+                                   echo "<td>" . $row['points'] . "</td>";
+                                   echo "<td>" . $row['conname'] . "</td>";
+                                   echo "<td>" . $row['wins'] . "</td>";
+                               echo "</tr>";
+                           }
+                           echo "</tbody>";                            
+                       echo "</table>";
+                          }
+                        }
+                ?>
             </div>
         </div>
     </section>
