@@ -1,0 +1,15 @@
+#welcome-image{
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 20vh;
+}
+
+#welcome-text{
+    color: whitesmoke;
+}
+
+#welcome-text-logo{
+    height: 7vh;
+}
