@@ -51,6 +51,10 @@
             <div class="col-lg-9 col-md-10">
                 <h1>Letztes Rennergebnis</h1>
                 <p class="test-border">Hallo</p>
+                <?php
+                require_once "/php/config.php";
+                ?>
+                
             </div>
             <div class="col-lg-3 col-md-10">
                 <h1>Fahrer-Rangliste</h1>
