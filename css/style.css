@@ -3,7 +3,7 @@ body{
 }
 
 #welcome-image{
-    background-image: url("../images/background.jpg");
+    background-image: url("../images/background_blur.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -12,6 +12,7 @@ body{
 
 #welcome-text{
     color: whitesmoke;
+    text-shadow: 0px 0px 10px black;
 }
 
 #welcome-text-logo{
