@@ -131,7 +131,55 @@
     </section>
 
     <section id="race-details" class="container">
+              <?php
+              if(empty($raceid)){
+                echo "<h2>Bitte Rennen auswählen!</h2>";
+              }else{
+                $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status
+                FROM races rac
+                INNER JOIN results res ON res.raceId = rac.raceId
+                INNER JOIN drivers dri ON dri.driverId = res.driverId
+                INNER JOIN constructors con ON con.constructorId = res.constructorId
+                INNER JOIN status sta ON sta.statusId = res.statusId
+                WHERE rac.raceid = $raceid
+                GROUP BY dri.driverid
+				ORDER BY 
+					CASE 
+						WHEN res.position IS NULL THEN 1
+					ELSE 0
+				END,
+				res.position;
+                
+                ";
+                    if($racedetails_result = mysqli_query($link, $racedetails_sql)){
+                    if(mysqli_num_rows($racedetails_result) > 0){
+                        echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
+                            echo "<thead>";
+                                echo "<tr>";
+                                    echo "<th>Position</th>";
+                                    echo "<th>Fahrer</th>";
+                                    echo "<th>Team</th>";
+                                    echo "<th>Status</th>";
+                                echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+                            while($racedetails_row = mysqli_fetch_array($racedetails_result)){
+                                echo "<tr>";
+                                    echo "<td>" . $racedetails_row['Position'] .  "</td>";
+                                    echo "<td>" . $racedetails_row['Driver'] . "</td>";
+                                    echo "<td>" . $racedetails_row['Constructor'] . "</td>";
+                                    echo "<td>" . $racedetails_row['Status'] . "</td>";
+                                echo "</tr>";
+                            }
+                            echo "</tbody>";                            
+                        echo "</table>";
+                          }
+                        }
 
+
+
+              
+            }?>
 
     </section>
 
