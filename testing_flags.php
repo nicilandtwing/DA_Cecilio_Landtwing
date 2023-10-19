@@ -8,6 +8,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <?php
                 require_once "php/config.php";
+                $nationalityToCountryCode = array(
+                  "American" => "US",
+                  "Canadian" => "CA",
+                  "British" => "GB",
+                  "French" => "FR",
+                  "German" => "DE",
+                  "Italian" => "IT",
+                  "Australian" => "AU",
+                  "Japanese" => "JP",
+                  "Chinese" => "CN",
+                  "Indian" => "IN",
+                  "Dutch" => "NL"
+              );
     ?>
   </head>
   <body>
@@ -35,9 +48,6 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Teams</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="testing_flags.php">Testing</a>
               </li>
             </ul>
           </div>
@@ -102,7 +112,14 @@
             </div>
             <div class="col-lg-5 col-md-10">
                 <h1>Fahrer-Rangliste</h1>
-                <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).</p><br>
+                <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).
+                <?php
+                    $nationality = "Dutch"; // Replace with the desired nationality
+                    $countryCode = $nationalityToCountryCode[$nationality];
+                    echo "Nationality: $nationality, Country Code: $countryCode";
+                    echo "<i class="fas fa-flag"></i>";
+                ?>
+                </p><br>
                 
                 <?php
                    $current_drivers_position_sql = "SELECT * FROM v_current_drivers_position LIMIT 5";

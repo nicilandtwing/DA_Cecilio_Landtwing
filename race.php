@@ -46,9 +46,16 @@
       <h1 id="subpage-text">Rennen</h1>
     </section>
 <br>
-
     <section id="race-selection" class="container">
       <div class="row">
+        <?php
+          if(empty($raceid)){
+            echo "<h4>Bitte Rennen auswählen:</h4>";
+          }
+          else{
+            echo "";
+          }
+        ?>
         <div class="col-4">
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -129,11 +136,11 @@
       </div>
       
     </section>
-
+    <br>
     <section id="race-details" class="container">
               <?php
               if(empty($raceid)){
-                echo "<h2>Bitte Rennen auswählen!</h2>";
+                echo "";
               }else{
                 $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status
                 FROM races rac
