@@ -117,7 +117,7 @@
                     $nationality = "Dutch"; // Replace with the desired nationality
                     $countryCode = $nationalityToCountryCode[$nationality];
                     echo "Nationality: $nationality, Country Code: $countryCode";
-                    echo "<i class="fas fa-flag"></i>";
+                    echo "<i class='fas fa-flag'></i>";
                 ?>
                 </p><br>
                 
