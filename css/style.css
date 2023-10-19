@@ -1,9 +1,17 @@
 body{
-    background-color: aqua;
+    background-color: rgb(230, 230, 230)!important;
 }
 
 #welcome-image{
-    background-image: url("../images/background.jpg");
+    background-image: url("../images/background_blur.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 20vh;
+}
+
+#seasons-image{
+    background-image: url("../images/seasons_blur.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -12,6 +20,13 @@ body{
 
 #welcome-text{
     color: whitesmoke;
+    text-shadow: 0px 0px 10px black;
+}
+
+#subpage-text{
+    color: whitesmoke;
+    text-shadow: 0px 0px 10px black;
+    font-size: 10vh;
 }
 
 #welcome-text-logo{
@@ -20,4 +35,13 @@ body{
 
 .test-border{
     border: 2px dotted red;
+}
+
+#last-race-current-scores{
+    padding-top: 5vh;
+}
+
+a.custom-link{
+    color: black!important;
+    font-weight: bold;
 }

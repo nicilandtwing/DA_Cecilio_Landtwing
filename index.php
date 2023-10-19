@@ -22,13 +22,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Saisons</a>
+                <a class="nav-link" href="season-list.php">Saisons</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Rennen</a>
+                <a class="nav-link" href="race.php">Rennen</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Fahrer</a>
@@ -46,9 +46,9 @@
       <h1 id="welcome-text">Willkommen bei</h1>
       <img id="welcome-text-logo" src="images/Logo.png" alt="Formula 1 DB Logo">
     </section>
+<br>
 
-
-    <section id="last-race-current-scores" class="container">
+    <section id="every-season" class="container">
 
         <div class="row">
             <div class="col-lg-7 col-md-10">
@@ -68,15 +68,15 @@
                    $latest_race_result_sql = "SELECT * FROM v_latest_race_result";
                    if($result = mysqli_query($link, $latest_race_result_sql)){
                    if(mysqli_num_rows($result) > 0){
-                       echo '<table class="table table-bordered table-striped">';
+                       echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
-                                   echo "<th>Position</th>";
+                                   echo "<th>Pos.</th>";
                                    echo "<th>Fahrer</th>";
                                    echo "<th>Team</th>";
                                    echo "<th>Rennzeit</th>";
                                    echo "<th>Status</th>";
-               echo "<th>Gestartet von</th";
+               //echo "<th>Gestartet von</th";
                                echo "</tr>";
                            echo "</thead>";
                            echo "<tbody>";
@@ -87,7 +87,7 @@
                                    echo "<td>" . $row['constructor_name'] . "</td>";
                                    echo "<td>" . $row['time'] . "</td>";
                                    echo "<td>" . $row['status'] . "</td>";
-               echo "<td>" . $row['grid'] . "</td>";
+                                   //echo "<td>" . $row['grid'] . "</td>";
                                echo "</tr>";
                            }
                           }
@@ -99,12 +99,12 @@
             </div>
             <div class="col-lg-5 col-md-10">
                 <h1>Fahrer-Rangliste</h1>
-                <p>Die Tabelle zeigt die momentane Rangliste.</p>
+                <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).</p><br>
                 <?php
                    $current_drivers_position_sql = "SELECT * FROM v_current_drivers_position LIMIT 5";
                    if($result = mysqli_query($link, $current_drivers_position_sql)){
                    if(mysqli_num_rows($result) > 0){
-                       echo '<table class="table table-bordered table-striped table-hover table-responsive">';
+                       echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
                                    echo "<th>Position</th>";
@@ -128,14 +128,14 @@
                        echo "</table>";
                           }
                         }
-                ?>
+                ?><br>
 
-                <h1>Teams-Rangliste</h1>
+                <h1>Teams-Rangliste</h1><br>
                 <?php
                    $current_constructors_position_sql = "SELECT * FROM v_current_constructors_position";
                    if($result = mysqli_query($link, $current_constructors_position_sql)){
                    if(mysqli_num_rows($result) > 0){
-                       echo '<table class="table table-bordered table-striped table-hover table-responsive">';
+                       echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
                                    echo "<th>Position</th>";
