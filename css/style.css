@@ -43,5 +43,5 @@ body{
 
 a.custom-link{
     color: black!important;
-    font-weight: bold;
+   /* font-weight: bold; */
 }

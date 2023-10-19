@@ -57,7 +57,7 @@
                     $seasons_sql = "SELECT * FROM v_seasons_with_world_champions;";
                     if($result = mysqli_query($link, $seasons_sql)){
                     if(mysqli_num_rows($result) > 0){
-                        echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
+                        echo '<table class="table table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
                                     echo "<th>Jahr</th>";
