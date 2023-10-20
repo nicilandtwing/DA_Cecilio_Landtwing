@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formula 1 DB</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <?php
@@ -31,13 +32,10 @@
                 <a class="nav-link" href="race.php">Rennen</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Fahrer</a>
+              <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Teams</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="testing_flags.php">Testing</a>
               </li>
             </ul>
           </div>
@@ -86,7 +84,7 @@
                            while($row = mysqli_fetch_array($result)){
                                echo "<tr>";
                                    echo "<td>" . $row['Position'] . "</td>";
-                                   echo "<td>" . $row['Fahrervorname'] . " " . $row['Fahrernachname'] . "</td>";
+                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['nationality']] . "/shiny/32.png'> " . $row['Fahrervorname'] . " " . $row['Fahrernachname'] . "</td>";
                                    echo "<td>" . $row['constructor_name'] . "</td>";
                                    echo "<td>" . $row['time'] . "</td>";
                                    echo "<td>" . $row['status'] . "</td>";
@@ -112,9 +110,9 @@
                            echo "<thead>";
                                echo "<tr>";
                                    echo "<th>Position</th>";
-                                   echo "<th>Punkte</th>";
                                    echo "<th>Fahrer</th>";
                                    echo "<th>Team</th>";
+                                   echo "<th>Punkte</th>";
                                    echo "<th>Siege</th>";
                                echo "</tr>";
                            echo "</thead>";
@@ -122,9 +120,9 @@
                            while($row = mysqli_fetch_array($result)){
                                echo "<tr>";
                                    echo "<td>" . $row['position'] . "</td>";
-                                   echo "<td>" . $row['points'] . "</td>";
-                                   echo "<td>" . $row['forename'] . " " . $row['surname'] . "</td>";
+                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['nationality']] . "/shiny/32.png'> " . $row['forename'] . " " . $row['surname'] . "</td>";
                                    echo "<td>" . $row['constructor_name'] . "</td>";
+                                   echo "<td>" . $row['points'] . "</td>";
                                    echo "<td>" . $row['wins'] . "</td>";
                                echo "</tr>";
                            }
@@ -143,8 +141,8 @@
                            echo "<thead>";
                                echo "<tr>";
                                    echo "<th>Position</th>";
-                                   echo "<th>Punkte</th>";
                                    echo "<th>Team</th>";
+                                   echo "<th>Punkte</th>";
                                    echo "<th>Siege</th>";
                                echo "</tr>";
                            echo "</thead>";
@@ -152,8 +150,8 @@
                            while($row = mysqli_fetch_array($result)){
                                echo "<tr>";
                                    echo "<td>" . $row['position'] . "</td>";
+                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['nationality']] . "/shiny/32.png'> " . $row['conname'] . "</td>";
                                    echo "<td>" . $row['points'] . "</td>";
-                                   echo "<td>" . $row['conname'] . "</td>";
                                    echo "<td>" . $row['wins'] . "</td>";
                                echo "</tr>";
                            }

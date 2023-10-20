@@ -19,7 +19,7 @@ WHERE rac.raceId = (SELECT MAX(raceId) FROM results);
 
 /* Resultat des letzten Rennens */
 CREATE OR REPLACE VIEW v_latest_race_result AS
-SELECT rac.name AS Rennname, res.position AS Position, dri.forename AS Fahrervorname, dri.surname AS Fahrernachname, vcur.constructor_name, res.time, sta.status, res.grid
+SELECT rac.name AS Rennname, res.position AS Position, dri.forename AS Fahrervorname, dri.surname AS Fahrernachname, dri.nationality, vcur.constructor_name, res.time, sta.status, res.grid
 FROM races rac
 INNER JOIN results res ON res.raceId = rac.raceId
 INNER JOIN drivers dri ON dri.driverId = res.driverId
@@ -36,7 +36,7 @@ ORDER BY
 
 /* Momentane Fahrer Rangliste */
 CREATE OR REPLACE VIEW v_current_drivers_position AS
-SELECT dri.forename, dri.surname, drs.position, drs.points, drs.wins, vcur.constructor_name
+SELECT dri.forename, dri.surname, drs.position, drs.points, drs.wins, vcur.constructor_name, dri.nationality
 FROM driverStandings drs
 INNER JOIN drivers dri ON dri.driverId = drs.driverId
 INNER JOIN v_current_driver_teams vcur ON vcur.driverId = dri.driverId
@@ -46,7 +46,7 @@ ORDER BY drs.position;
 
 /* Momentane Team Rangliste */
 CREATE OR REPLACE VIEW v_current_constructors_position AS
-SELECT cos.position, cos.points, con.name as conname, cos.wins
+SELECT cos.position, con.name as conname, con.nationality, cos.points, cos.wins
 FROM constructors con
 INNER JOIN constructorStandings cos ON cos.constructorId = con.constructorId
 WHERE cos.raceId = (SELECT MAX(raceId) FROM constructorStandings)
@@ -71,3 +71,27 @@ SELECT last_race_of_year, year, dri.forename, dri.surname, drs.points AS drspoin
 ALTER TABLE `races` ADD INDEX (`year`,`round`);
 ALTER TABLE `results` ADD INDEX (`position`,`raceId`);
 ALTER TABLE `results` ADD INDEX (`grid`,`raceId`);
+
+/* == FAHRER UNTERSEITE ==  */
+/*Racewinners from drivers currently driving in F1*/
+CREATE OR REPLACE VIEW v_racewinners AS
+SELECT dri.forename, dri.surname, dri.driverId, count(vcdt.driverId) AS Rennsiege
+        FROM races r
+        INNER JOIN results res ON r.raceId = res.raceId
+	INNER JOIN drivers dri ON res.driverId = dri.driverId
+        INNER JOIN v_current_driver_teams vcdt ON dri.driverId = vcdt.driverId
+        WHERE res.position = 1
+        GROUP BY vcdt.driverId
+        ORDER BY r.date DESC;
+
+/* Auflistung aktuelle Fahrer mit Rennsiegen und Weltmeisterschaften*/
+CREATE OR REPLACE VIEW v_current_driver_teams_wins AS
+SELECT dri.driverid, dri.forename, dri.surname, con.name AS constructor_name, cast((count(wcd.driverid)/16) as DECIMAL) as Weltmeisterschaften, rw.Rennsiege
+FROM drivers dri
+LEFT OUTER JOIN v_seasons_with_world_champions wcd on dri.driverId = wcd.driverid
+LEFT OUTER JOIN v_racewinners rw on dri.driverId = rw.driverId
+INNER JOIN results res ON dri.driverId = res.driverId
+INNER JOIN constructors con ON res.constructorId = con.constructorId
+INNER JOIN races rac ON res.raceId = rac.raceId
+WHERE rac.year = (SELECT MAX(year) FROM races)
+GROUP BY dri.driverId;

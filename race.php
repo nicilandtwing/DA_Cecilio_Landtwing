@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formula 1 DB - Rennen</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <?php
@@ -31,7 +32,7 @@
                 <a class="nav-link active" aria-current="page" href="race.php">Rennen</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Fahrer</a>
+              <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Teams</a>
@@ -142,7 +143,7 @@
               if(empty($raceid)){
                 echo "";
               }else{
-                $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status
+                $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status, res.points AS Punkte
                 FROM races rac
                 INNER JOIN results res ON res.raceId = rac.raceId
                 INNER JOIN drivers dri ON dri.driverId = res.driverId
@@ -160,13 +161,14 @@
                 ";
                     if($racedetails_result = mysqli_query($link, $racedetails_sql)){
                     if(mysqli_num_rows($racedetails_result) > 0){
-                        echo '<table class="table table-bordered table-striped border-dark table-hover table-responsive">';
+                        echo '<table class="table  table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
                                     echo "<th>Position</th>";
                                     echo "<th>Fahrer</th>";
                                     echo "<th>Team</th>";
                                     echo "<th>Status</th>";
+                                    echo "<th>Punkte</th>";
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
@@ -176,6 +178,7 @@
                                     echo "<td>" . $racedetails_row['Driver'] . "</td>";
                                     echo "<td>" . $racedetails_row['Constructor'] . "</td>";
                                     echo "<td>" . $racedetails_row['Status'] . "</td>";
+                                    echo "<td>" . $racedetails_row['Punkte'] . "</td>";
                                 echo "</tr>";
                             }
                             echo "</tbody>";                            
