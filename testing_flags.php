@@ -19,7 +19,9 @@
                   "Japanese" => "JP",
                   "Chinese" => "CN",
                   "Indian" => "IN",
-                  "Dutch" => "NL"
+                  "Dutch" => "NL",
+                  "Mexican" => "MX",
+                  "Spanish" => "ES"
               );
     ?>
   </head>
@@ -112,14 +114,7 @@
             </div>
             <div class="col-lg-5 col-md-10">
                 <h1>Fahrer-Rangliste</h1>
-                <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).
-                <?php
-                    $nationality = "Dutch"; // Replace with the desired nationality
-                    $countryCode = $nationalityToCountryCode[$nationality];
-                    echo "Nationality: $nationality, Country Code: $countryCode";
-                    echo "<img src='https://flagsapi.com/$countryCode/shiny/64.png'>";
-                ?>
-                </p><br>
+                <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).</p><br>
                 
                 <?php
                    $current_drivers_position_sql = "SELECT * FROM v_current_drivers_position LIMIT 5";
@@ -131,6 +126,7 @@
                                    echo "<th>Position</th>";
                                    echo "<th>Punkte</th>";
                                    echo "<th>Fahrer</th>";
+                                   echo "<th>Nationalität</th>";
                                    echo "<th>Team</th>";
                                    echo "<th>Siege</th>";
                                echo "</tr>";
@@ -141,6 +137,8 @@
                                    echo "<td>" . $row['position'] . "</td>";
                                    echo "<td>" . $row['points'] . "</td>";
                                    echo "<td>" . $row['forename'] . " " . $row['surname'] . "</td>";
+                                   //echo "<td>" . $nationalityToCountryCode[$row['nationality']] . "</td>" ;
+                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['nationality']] . "/shiny/64.png'></td>";
                                    echo "<td>" . $row['constructor_name'] . "</td>";
                                    echo "<td>" . $row['wins'] . "</td>";
                                echo "</tr>";
