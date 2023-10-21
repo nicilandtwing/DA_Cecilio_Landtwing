@@ -43,9 +43,10 @@
       </nav>
 
       <!-- Startseiten-Banner mit Logo -->
-    <section id="welcome-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
+    <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
       <h1 id="welcome-text">Willkommen bei</h1>
       <img id="welcome-text-logo" src="images/Logo.png" alt="Formula 1 DB Logo">
+      <script src="js/randombackground.js"></script>
     </section>
 <br>
 

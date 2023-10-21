@@ -43,8 +43,9 @@
       </nav>
 
       <!-- Rennen-Banner -->
-    <section id="seasons-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
+    <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
       <h1 id="subpage-text">Rennen</h1>
+      <script src="js/randombackground.js"></script>
     </section>
 <br>
     <section id="race-selection" class="container">

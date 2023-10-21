@@ -43,8 +43,9 @@
       </nav>
 
       <!-- Fahrer Banner-->
-      <section id="seasons-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
+    <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
       <h1 id="subpage-text">Fahrer</h1>
+      <script src="js/randombackground.js"></script>
     </section>
 <br>
 
@@ -72,7 +73,8 @@
                                    echo "<td>" . $row['constructor_name'] . "</td>";
                                    echo "<td>" . $row['Weltmeisterschaften'] . "</td>";
                                    echo "<td>" . $row['Rennsiege'] . "</td>";
-                                   echo "<td><a href='https://de.wikipedia.org/wiki/" . $row['forename'] . "_" . $row['surname'] . "' target='_blank'>Link</a></td>";
+                                   //echo "<td>" . $row['url'] . "</td>";
+                                   echo "<td><a class='custom-link' href='" . $row['url'] . "' target='_blank'>Link</a></td>";
                                echo "</tr>";
                            }
                           }

@@ -2,16 +2,7 @@ body{
     background-color: rgb(230, 230, 230)!important;
 }
 
-#welcome-image{
-    background-image: url("../images/background_blur.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 20vh;
-}
-
-#seasons-image{
-    background-image: url("../images/seasons_blur.jpg");
+#random-image{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
