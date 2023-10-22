@@ -60,7 +60,7 @@ SELECT last_race_of_year, year, dri.forename, dri.surname, drs.points AS drspoin
         FROM (SELECT races.year AS year, max(races.raceid) AS last_race_of_year FROM races GROUP BY year ORDER BY year DESC) sub
         INNER JOIN driverStandings drs ON drs.raceid = last_race_of_year
         INNER JOIN drivers dri ON drs.driverId = dri.driverId
-        LEFT JOIN constructorstandings cos ON cos.raceid = last_race_of_year
+        LEFT JOIN constructorStandings cos ON cos.raceid = last_race_of_year
         LEFT JOIN constructors con ON cos.constructorId = con.constructorId
         WHERE drs.position = 1
         AND (cos.position = 1 OR cos.position IS NULL)
