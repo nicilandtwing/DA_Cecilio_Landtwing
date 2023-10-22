@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Formula 1 DB - Fahrer</title>
+    <title>Formula 1 DB - Teams</title>
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -32,10 +32,10 @@
                 <a class="nav-link" href="race.php">Rennen</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="drivers.php">Fahrer</a>
+              <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="teams.php">Teams</a>
+              <a class="nav-link active" aria-current="page" href="teams.php">Teams</a>
               </li>
             </ul>
           </div>
@@ -44,22 +44,21 @@
 
       <!-- Fahrer Banner-->
     <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
-      <h1 id="subpage-text">Fahrer</h1>
+      <h1 id="subpage-text">Teams</h1>
       <script src="js/randombackground.js"></script>
     </section>
 <br>
 
-    <section id="drivers" class="container">
+    <section id="Teams" class="container">
         <div class="row">
-                <h1>Aktuelle Fahrer</h1>
+                <h1>Aktuelle Teams</h1>
                 <?php
-                   $current_drivers = "SELECT * FROM v_current_driver_teams_wins";
-                   if($result = mysqli_query($link, $current_drivers)){
+                   $current_teams = "SELECT * FROM v_current_teams_wins";
+                   if($result = mysqli_query($link, $current_teams)){
                    if(mysqli_num_rows($result) > 0){
                        echo '<table class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
-                                   echo "<th>Fahrer</th>";
                                    echo "<th>Team</th>";
                                    echo "<th>Weltmeisterschaften</th>";
                                    echo "<th>Rennsiege</th>";
@@ -69,13 +68,12 @@
                            echo "<tbody>";
                            while($row = mysqli_fetch_array($result)){
                                echo "<tr>";
-                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['driver_nationality']] . "/shiny/32.png'> " . $row['forename'] . " " . $row['surname'] . "</td>";
-                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['constructor_nationality']] . "/shiny/32.png'> " . $row['constructor_name'] . "</td>";
-                                   echo "<td>" . $row['driver_worldchampions'] . "</td>";
-                                   if(is_null($row['racewins'])) {
+                                   echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['nationality']] . "/shiny/32.png'> " . $row['name'] . "</td>";
+                                   echo "<td>" . $row['constructor_worldchampions'] . "</td>";
+                                   if(is_null($row['constructorwins'])) {
                                     echo "<td>0</td>";                                    
                                     } else {
-                                      echo "<td>" . $row['racewins'] . "</td>";
+                                      echo "<td>" . $row['constructorwins'] . "</td>";
                                      }
                                    //echo "<td>" . $row['url'] . "</td>";
                                    echo "<td><a class='custom-link' href='" . $row['url'] . "' target='_blank'>Link</a></td>";

@@ -35,7 +35,7 @@
               <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Teams</a>
+              <a class="nav-link" aria-current="page" href="teams.php">Teams</a>
               </li>
             </ul>
           </div>
@@ -73,9 +73,13 @@
                             while($row = mysqli_fetch_array($result)){
                                 echo "<tr>";
                                     echo "<td><a class='custom-link' href='season.php?year=" . $row['year'] . "'>" . $row['year'] . "</a></td>";
-                                    echo "<td>" . $row['forename'] . " " . $row['surname'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['driver_nationality']] . "/shiny/32.png'> " . $row['forename'] . " " . $row['surname'] . "</td>";
                                     echo "<td>" . $row['drspoints'] .  "</td>";
-                                    echo "<td>" . $row['name'] . "</td>";
+                                    if(is_null($row['constructor_nationality'])) {
+                                      echo "<td> </td>";                                    
+                                      } else {
+                                        echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['constructor_nationality']] . "/shiny/32.png'> " . $row['constructor_name'] . "</td>";
+                                      }
                                     echo "<td>" . $row['cospoints'] . "</td>";
                                 echo "</tr>";
                             }

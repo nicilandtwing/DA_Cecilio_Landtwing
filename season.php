@@ -32,10 +32,10 @@
                 <a class="nav-link" href="race.php">Rennen</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
+              <a class="nav-link" aria-current="page" href="teams.php">Fahrer</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Teams</a>
+              <a class="nav-link" aria-current="page" href="teams.php">Teams</a>
               </li>
             </ul>
           </div>

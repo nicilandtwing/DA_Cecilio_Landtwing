@@ -35,7 +35,7 @@
               <a class="nav-link" aria-current="page" href="drivers.php">Fahrer</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Teams</a>
+              <a class="nav-link" aria-current="page" href="teams.php">Teams</a>
               </li>
             </ul>
           </div>
@@ -144,7 +144,7 @@
               if(empty($raceid)){
                 echo "";
               }else{
-                $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status, res.points AS Punkte
+                $racedetails_sql = "SELECT res.position AS Position, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status, res.points AS Punkte, dri.nationality AS driver_nationality, con.nationality AS constructor_nationality
                 FROM races rac
                 INNER JOIN results res ON res.raceId = rac.raceId
                 INNER JOIN drivers dri ON dri.driverId = res.driverId
@@ -176,8 +176,8 @@
                             while($racedetails_row = mysqli_fetch_array($racedetails_result)){
                                 echo "<tr>";
                                     echo "<td>" . $racedetails_row['Position'] .  "</td>";
-                                    echo "<td>" . $racedetails_row['Driver'] . "</td>";
-                                    echo "<td>" . $racedetails_row['Constructor'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['driver_nationality']] . "/shiny/32.png'>" . $racedetails_row['Driver'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['constructor_nationality']] . "/shiny/32.png'> " . $racedetails_row['Constructor'] . "</td>"; 
                                     echo "<td>" . $racedetails_row['Status'] . "</td>";
                                     echo "<td>" . $racedetails_row['Punkte'] . "</td>";
                                 echo "</tr>";

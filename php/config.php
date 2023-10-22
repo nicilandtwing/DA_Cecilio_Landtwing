@@ -33,6 +33,27 @@ $nationalityToCountryCode = array(
     "Thai" => "TH",
     "Danish" => "DK",
     "New Zealander" => "NZ",
-    "Finnish" => "FI"
+    "Finnish" => "FI",
+    "Brazilian" => "BR",
+    "South African" => "ZA",
+    "Argentine" => "AR",
+    "Polish" => "PL",
+    "Russian" => "RU",
+    "Belgian" => "BE",
+    "Swedish" => "SE",
+    "Venezuelan" => "VE",
+    "Hong Kong" => "HK",
+    "Colombian" => "CO",
+    "Chilean" => "CL",
+    "Malaysian" => "MY",
+    "Indonesian" => "ID",
+    "Portuguese" => "PT",
+    "Irish" => "IE",
+    "Hungarian" => "HU"
+    "Rhodesian" => "ZW"
+    "East German" => "DE"
+    "Czech" => "CZ"
+    "Liechtensteiner" => "LI"
+
 );
 ?>
