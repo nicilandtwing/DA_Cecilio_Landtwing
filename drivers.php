@@ -73,7 +73,7 @@
                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['constructor_nationality']] . "/shiny/32.png'> " . $row['constructor_name'] . "</td>";
                                    echo "<td>" . $row['driver_worldchampions'] . "</td>";
                                    if(is_null($row['racewins'])) {
-                                    echo "<td>0</td>";                                    
+                                    echo "<td>0</td>";
                                     } else {
                                       echo "<td>" . $row['racewins'] . "</td>";
                                      }

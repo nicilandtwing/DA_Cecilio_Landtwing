@@ -49,11 +49,10 @@ $nationalityToCountryCode = array(
     "Indonesian" => "ID",
     "Portuguese" => "PT",
     "Irish" => "IE",
-    "Hungarian" => "HU"
-    "Rhodesian" => "ZW"
-    "East German" => "DE"
-    "Czech" => "CZ"
+    "Hungarian" => "HU",
+    "Rhodesian" => "ZW",
+    "East German" => "DE",
+    "Czech" => "CZ",
     "Liechtensteiner" => "LI"
-
 );
 ?>

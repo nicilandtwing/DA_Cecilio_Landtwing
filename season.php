@@ -69,12 +69,17 @@
                 ?> Punkten</strong>.
                 </p>
                 
-
-                <p><strong><?php
-                 echo $champion_row['name']
-                ?></strong> wurde mit <strong><?php
-                echo $champion_row['cospoints'];?> Punkten</strong> Team-Weltmeister.</p>
-
+                <?php
+                echo"<p><strong>";
+                if(is_null($champion_row['constructor_name'])) {
+                    echo "In dieser Saison hat es noch keine Konstruktoren-Weltmeisterschaft gegeben!";                                    
+                } else {
+                  echo $champion_row['constructor_name'];
+                  echo "</strong> wurde mit <strong>";
+                  echo $champion_row['cospoints']; 
+                  echo "Punkten</strong> Team-Weltmeister.</p>";
+                  }
+                ?>
 <p>Klicke <a class="custom-link" href="season-list.php">hier</a>, um zurück zu allen Saisons zu kommen</p>
 
                 <?php 
@@ -84,27 +89,39 @@
                     (SELECT CONCAT(d1.forename,' ', d1.surname) FROM drivers d1
                      JOIN results res1 ON d1.driverId = res1.driverId
                      WHERE res1.raceId = rac.raceId AND res1.position = 1) AS 'Rennsieger',
-                     (SELECT CONCAT(d1.driverid) FROM drivers d1
+                    (SELECT CONCAT(d1.driverid) FROM drivers d1
                      JOIN results res1 ON d1.driverId = res1.driverId
                      WHERE res1.raceId = rac.raceId AND res1.position = 1) AS 'RennsiegerID',
+                    (SELECT CONCAT(d1.nationality) FROM drivers d1
+                     JOIN results res1 ON d1.driverId = res1.driverId
+                     WHERE res1.raceId = rac.raceId AND res1.position = 1) AS 'Rennsieger-Nationality',
                     (SELECT CONCAT(d2.forename,' ', d2.surname) FROM drivers d2
                      JOIN results res2 ON d2.driverId = res2.driverId
                      WHERE res2.raceId = rac.raceId AND res2.grid = 1) AS 'Renn-Pole',
-                     (SELECT CONCAT(d2.driverid) FROM drivers d2
+                    (SELECT CONCAT(d2.driverid) FROM drivers d2
                      JOIN results res2 ON d2.driverId = res2.driverId
                      WHERE res2.raceId = rac.raceId AND res2.grid = 1) AS 'Renn-PoleID',
-                     (SELECT CONCAT(d3.forename,' ', d3.surname) FROM drivers d3
+                    (SELECT CONCAT(d2.nationality) FROM drivers d2
+                     JOIN results res2 ON d2.driverId = res2.driverId
+                     WHERE res2.raceId = rac.raceId AND res2.grid = 1) AS 'Renn-Pole-Nationality',
+                    (SELECT CONCAT(d3.forename,' ', d3.surname) FROM drivers d3
                      JOIN sprintResults spr1 ON spr1.driverId = d3.driverId
                      WHERE spr1.raceId = rac.raceId AND spr1.position = 1) AS 'Sprintsieger',
-                     (SELECT CONCAT(d3.driverid) FROM drivers d3
+                    (SELECT CONCAT(d3.driverid) FROM drivers d3
                      JOIN sprintResults spr1 ON spr1.driverId = d3.driverId
                      WHERE spr1.raceId = rac.raceId AND spr1.position = 1) AS 'SprintsiegerID',
-                     (SELECT CONCAT(d4.forename,' ', d4.surname) FROM drivers d4
+                    (SELECT CONCAT(d3.nationality) FROM drivers d3
+                     JOIN sprintResults spr1 ON spr1.driverId = d3.driverId
+                     WHERE spr1.raceId = rac.raceId AND spr1.position = 1) AS 'Sprintsieger-Nationality',
+                    (SELECT CONCAT(d4.forename,' ', d4.surname) FROM drivers d4
                      JOIN sprintResults spr2 ON spr2.driverId = d4.driverId
                      WHERE spr2.raceId = rac.raceId AND spr2.grid = 1) AS 'Sprint-Pole',
-                     (SELECT CONCAT(d4.driverid) FROM drivers d4
+                    (SELECT CONCAT(d4.driverid) FROM drivers d4
                      JOIN sprintResults spr2 ON spr2.driverId = d4.driverId
-                     WHERE spr2.raceId = rac.raceId AND spr2.grid = 1) AS 'Sprint-PoleID'
+                     WHERE spr2.raceId = rac.raceId AND spr2.grid = 1) AS 'Sprint-PoleID',
+                    (SELECT CONCAT(d4.nationality) FROM drivers d4
+                     JOIN sprintResults spr2 ON spr2.driverId = d4.driverId
+                     WHERE spr2.raceId = rac.raceId AND spr2.grid = 1) AS 'Sprint-Pole-Nationality'
                 FROM races rac
                 WHERE rac.year = $year
                 ORDER BY rac.round ASC;";
@@ -127,10 +144,15 @@
                                 echo "<tr>";
                                     echo "<td>" . $row['Runde'] . "</td>";
                                     echo "<td><a class='custom-link' href='race.php?year=$year&raceid=" . $row['raceid'] . "'>" . $row['Grand-Prix'] . "</a></td>";
-                                    echo "<td>" . $row['Rennsieger'] .  "</td>";
-                                    echo "<td>" . $row['Renn-Pole'] . "</td>";
-                                    echo "<td>" . $row['Sprintsieger'] . "</td>";
-                                    echo "<td>" . $row['Sprint-Pole'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['Rennsieger-Nationality']] . "/shiny/32.png'> " . $row['Rennsieger'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['Renn-Pole-Nationality']] . "/shiny/32.png'> " . $row['Renn-Pole'] . "</td>";
+                                    if(is_null($row['Sprintsieger'])) {
+                                      echo "<td> </td>";
+                                      echo "<td> </td>";                                     
+                                  } else {
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['Sprintsieger-Nationality']] . "/shiny/32.png'> " . $row['Sprintsieger'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$row['Sprint-Pole-Nationality']] . "/shiny/32.png'> " . $row['Sprint-Pole'] . "</td>";
+                                    }
                                     //echo "<td>" . $row['cospoints'] . "</td>";
                                 echo "</tr>";
                             }

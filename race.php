@@ -176,7 +176,7 @@
                             while($racedetails_row = mysqli_fetch_array($racedetails_result)){
                                 echo "<tr>";
                                     echo "<td>" . $racedetails_row['Position'] .  "</td>";
-                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['driver_nationality']] . "/shiny/32.png'>" . $racedetails_row['Driver'] . "</td>";
+                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['driver_nationality']] . "/shiny/32.png'> " . $racedetails_row['Driver'] . "</td>";
                                     echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['constructor_nationality']] . "/shiny/32.png'> " . $racedetails_row['Constructor'] . "</td>"; 
                                     echo "<td>" . $racedetails_row['Status'] . "</td>";
                                     echo "<td>" . $racedetails_row['Punkte'] . "</td>";
