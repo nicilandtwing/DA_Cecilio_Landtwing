@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <link href="css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <?php
                 require_once "php/config.php";
     ?>
@@ -52,11 +53,13 @@
     <section id="drivers" class="container">
         <div class="row">
                 <h1>Aktuelle Fahrer</h1>
+                <p>Sortiert nach WM-Position</p>
+                <p>Die Tabelle kann mit einem Klick auf den Spalten-Titel <strong>sortiert werden!</strong></p>
                 <?php
                    $current_drivers = "SELECT * FROM v_current_driver_teams_wins";
                    if($result = mysqli_query($link, $current_drivers)){
                    if(mysqli_num_rows($result) > 0){
-                       echo '<table class="table table-striped table-hover table-responsive">';
+                       echo '<table id="sort-table" class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
                                    echo "<th>Fahrer</th>";
@@ -91,6 +94,23 @@
     </section>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>    
+<script>
+  $(document).ready(function() {
+$('#sort-table').dataTable({
+    "bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": false,
+    "bAutoWidth": false,
+  "aaSorting": [] });
+});
+</script>
   </body>
 </html>
