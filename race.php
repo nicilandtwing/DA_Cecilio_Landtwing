@@ -205,28 +205,8 @@
 
 
 
-  <script>
-        // Function to load the driver modal content using AJAX
-        function loadDriverModal(js_driverId) {
-          if ($('#driverDetails').length) {
-        $('#driverDetails').remove();
-    }
-            // Use AJAX to load the modal content from modal.php
-            $.ajax({
-                type: 'GET',
-                url: 'raceDriverDetails.php?driver_id=' + js_driverId,
-                success: function (data) {
-                    // Append the modal content to the body
-                    $('body').append(data);
-
-                    // Show the modal
-                    $('#driverDetails').modal('show');
-                }
-            });
-        }
-    </script>
-      <p id="testid" onclick="loadDriverModal(830)">Test2
-  </p>
+  <script src="js/driverDetails.js">
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
