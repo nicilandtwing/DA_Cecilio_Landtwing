@@ -36,3 +36,11 @@ a.custom-link{
     color: black!important;
    /* font-weight: bold; */
 }
+
+td{
+   word-break:break-word;
+}
+
+.modalcell:hover{
+    text-decoration:underline;
+}

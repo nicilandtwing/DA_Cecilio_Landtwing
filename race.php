@@ -63,7 +63,7 @@
             echo "";
           }
         ?>
-      <div class="col-4">
+      <div class="col-6">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -97,7 +97,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
@@ -147,11 +147,15 @@
   </section>
   <br>
   <section id="race-details" class="container">
-    <?php
+    <div class="row">
+      <div class="col-md-10 col-sm-12">
+        
+        <?php
               if(empty($raceid)){
                 echo "";
               }else{
-                $racedetails_sql = "SELECT res.position AS Position,dri.driverid AS driverid, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, sta.status AS Status, res.points AS Punkte, dri.nationality AS driver_nationality, con.nationality AS constructor_nationality
+                echo "<h2>Rennresultate</h2>";
+                $racedetails_sql = "SELECT res.position AS Position,dri.driverid AS driverid, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, con.constructorId, sta.status AS Status, res.points AS Punkte, dri.nationality AS driver_nationality, con.nationality AS constructor_nationality
                 FROM races rac
                 INNER JOIN results res ON res.raceId = rac.raceId
                 INNER JOIN drivers dri ON dri.driverId = res.driverId
@@ -172,7 +176,7 @@
                         echo '<table class="table  table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
-                                    echo "<th>Position</th>";
+                                    echo "<th>Pos.</th>";
                                     echo "<th>Fahrer</th>";
                                     echo "<th>Team</th>";
                                     echo "<th>Status</th>";
@@ -183,8 +187,8 @@
                             while($racedetails_row = mysqli_fetch_array($racedetails_result)){
                                 echo "<tr>";
                                     echo "<td>" . $racedetails_row['Position'] .  "</td>";
-                                    echo "<td onclick='loadDriverModal(".$racedetails_row['driverid'] . ")'><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['driver_nationality']] . "/shiny/32.png'> " . $racedetails_row['Driver'] . "</td>";
-                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['constructor_nationality']] . "/shiny/32.png'> " . $racedetails_row['Constructor'] . "</td>"; 
+                                    echo "<td class='modalcell' onclick='loadDriverModal(".$racedetails_row['driverid'] . ")'><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['driver_nationality']] . "/shiny/32.png'> " . $racedetails_row['Driver'] . "</td>";
+                                    echo "<td class='modalcell' onclick='loadTeamModal(".$racedetails_row['constructorId'] . ")'><img src='https://flagsapi.com/" . $nationalityToCountryCode[$racedetails_row['constructor_nationality']] . "/shiny/32.png'> " . $racedetails_row['Constructor'] . "</td>"; 
                                     echo "<td>" . $racedetails_row['Status'] . "</td>";
                                     echo "<td>" . $racedetails_row['Punkte'] . "</td>";
                                 echo "</tr>";
@@ -198,6 +202,56 @@
 
               
             }?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-sm-12">
+        <br>
+        <?php
+              if(empty($raceid)){
+                echo "";
+              }else{
+                echo "<h2>Qualifying</h2>";
+                $qualifying_sql = "SELECT qua.position, dri.driverid, CONCAT(dri.forename, ' ', dri.surname) AS driver_name, dri.nationality AS driver_nationality, qua.q1, qua.q2, qua.q3
+                FROM qualifying qua
+                INNER JOIN drivers dri on dri.driverid = qua.driverid
+                WHERE qua.raceid = $raceid;";
+                    if($qualifying_result = mysqli_query($link, $qualifying_sql)){
+                    if(mysqli_num_rows($qualifying_result) > 0){
+                        echo '<table class="table  table-striped table-hover table-responsive">';
+                            echo "<thead>";
+                                echo "<tr>";
+                                    echo "<th>Pos.</th>";
+                                    echo "<th>Fahrer</th>";
+                                    echo "<th>Q1</th>";
+                                    echo "<th>Q2</th>";
+                                    echo "<th>Q3</th>";
+                                echo "</tr>";
+                            echo "</thead>";
+                            echo "<tbody>";
+                            while($qualying_row = mysqli_fetch_array($qualifying_result)){
+                                echo "<tr>";
+                                    echo "<td>" . $qualying_row['position'] .  "</td>";
+                                    echo "<td class='modalcell' onclick='loadDriverModal(".$qualying_row['driverid'] . ")'><img src='https://flagsapi.com/" . $nationalityToCountryCode[$qualying_row['driver_nationality']] . "/shiny/32.png'> " . $qualying_row['driver_name'] . "</td>";
+                                    echo "<td>" . $qualying_row['q1'] . "</td>"; 
+                                    echo "<td>" . $qualying_row['q2'] . "</td>";
+                                    echo "<td>" . $qualying_row['q3'] . "</td>";
+                                echo "</tr>";
+                            }
+                            echo "</tbody>";                            
+                        echo "</table>";
+                          }else{
+                            echo "<p>Keine Qualifying Daten vorhanden.</p>";
+                          }
+                        }
+
+
+
+              
+            }?>
+      </div>
+    </div>
   </section>
 
 
@@ -205,16 +259,15 @@
 
 
 
-  <script src="js/driverDetails.js">
+  <script src="js/modalTrigger.js">
   </script>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
   </script>
-  <script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-  crossorigin="anonymous"></script>
 
 </body>
 

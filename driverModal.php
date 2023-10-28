@@ -21,11 +21,10 @@
 <?php 
 require_once "php/config.php";
 $driver_id = $_GET["driver_id"]; //escape the string if you like
-$result = mysqli_query($link,"SELECT CONCAT(dri.forename, ' ', dri.surname) AS driver, (SELECT COUNT(res.position) FROM results res WHERE (res.driverId = $driver_id) AND (position = 1)) AS wins FROM results res
-INNER JOIN drivers dri ON dri.driverid = res.driverid
- WHERE (dri.driverId = $driver_id) LIMIT 1");
+$driver_modal_sql = "SELECT * FROM v_driver_modal_details WHERE driverid = $driver_id";
+$driver_modal_result = mysqli_query($link,$driver_modal_sql);
 //$count = mysqli_num_rows($result); //Don't need to count the rows too
-$row = mysqli_fetch_array($result); //Don't need the loop if you wana fetch only single row against id
+$driver_modal_row = mysqli_fetch_array($driver_modal_result); //Don't need the loop if you wana fetch only single row against id
 
 ?>
 
@@ -39,8 +38,14 @@ $row = mysqli_fetch_array($result); //Don't need the loop if you wana fetch only
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <h4><?php echo $row['driver']?></h4>
-          <p><strong>Rennsiege: </strong><?php echo $row['wins']?></p>
+          <h4><?php echo $driver_modal_row['driver_name']?></h4>
+          <p><strong>Rennsiege: </strong><?php if (is_null($driver_modal_row['racewins'])){
+            echo "0";
+          }else{
+            echo $driver_modal_row['racewins'];
+          }
+          ?></p>
+          <p><strong>Weltmeisterschaften: </strong><?php echo $driver_modal_row['driver_worldchampions']?></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schliessen</button>

@@ -20,27 +20,32 @@
 </head>
 <?php 
 require_once "php/config.php";
-$driver_id = $_GET["driver_id"]; //escape the string if you like
-$result = mysqli_query($link,"SELECT CONCAT(dri.forename, ' ', dri.surname) AS driver, (SELECT COUNT(res.position) FROM results res WHERE (res.driverId = $driver_id) AND (position = 1)) AS wins FROM results res
-INNER JOIN drivers dri ON dri.driverid = res.driverid
- WHERE (dri.driverId = $driver_id) LIMIT 1");
+$constructor_id = $_GET["constructor_id"]; //escape the string if you like
+$team_modal_sql = "SELECT * FROM v_constructor_modal_details WHERE constructorId = $constructor_id";
+$team_modal_result = mysqli_query($link,$team_modal_sql);
 //$count = mysqli_num_rows($result); //Don't need to count the rows too
-$row = mysqli_fetch_array($result); //Don't need the loop if you wana fetch only single row against id
+$team_modal_row = mysqli_fetch_array($team_modal_result); //Don't need the loop if you wana fetch only single row against id
 
 ?>
 
 <body>
 
-  <div class="modal fade" id="driverDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="teamDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Fahrerdetails</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Teamdetails</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <h4><?php echo $row['driver']?></h4>
-          <p><strong>Rennsiege: </strong><?php echo $row['wins']?></p>
+          <h4><?php echo $team_modal_row['constructor_name']?></h4>
+          <p><strong>Rennsiege: </strong><?php if (is_null($team_modal_row['constructor_wins'])){
+            echo "0";
+          }else{
+            echo $team_modal_row['constructor_wins'];
+          }
+          ?></p>
+          <p><strong>Weltmeisterschaften: </strong><?php echo $team_modal_row['constructor_worldchampions']?></p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schliessen</button>

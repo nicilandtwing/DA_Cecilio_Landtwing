@@ -25,7 +25,7 @@ function loadTeamModal(js_constructorId) {
       // Use AJAX to load the modal content from modal.php
       $.ajax({
           type: 'GET',
-          url: 'teamModal.php?driver_id=' + js_constructorId,
+          url: 'teamModal.php?constructor_id=' + js_constructorId,
           success: function (data) {
               // Append the modal content to the body
               $('body').append(data);
