@@ -76,7 +76,7 @@
         <?php
                 echo"<p><strong>";
                 if(is_null($champion_row['constructor_name'])) {
-                    echo "In dieser Saison hat es noch keine Konstruktoren-Weltmeisterschaft gegeben!";                                    
+                    echo "In dieser Saison hat es noch keine Konstruktoren-Weltmeisterschaft gegeben!</strong></p>";                                    
                 } else {
                   echo $champion_row['constructor_name'];
                   echo "</strong> wurde mit <strong>";
@@ -139,8 +139,8 @@
                                     echo "<th>GP</th>";
                                     echo "<th>Sieger</th>";
                                     echo "<th>Pole</th>";
-                                    echo "<th>Sprin1</th>";
-                                    echo "<th>Sprin2</th>";
+                                    echo "<th>Sprint-Sieger</th>";
+                                    echo "<th>Sprint-Pole</th>";
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
