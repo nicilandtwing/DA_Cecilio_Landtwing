@@ -6,16 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formula 1 DB - Fahrer</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+  <!-- Eigenes Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+
+  <!-- Bootstrap Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <!-- Bootstrap Stylesheet (DataTables -> sortierbarkeit) -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+  <!-- Datenbankzugriff -->
   <?php
                 require_once "php/config.php";
     ?>
 </head>
 
 <body>
+
+  <!-- Navigationsleiste oben -->
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -47,13 +57,15 @@
     </div>
   </nav>
 
-  <!-- Fahrer Banner-->
+  <!-- Banner mit Seitentitel -->
   <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
     <h1 id="subpage-text">Fahrer</h1>
+    <!-- Javascript, damit jedes Mal ein anderes Bild erscheint -->
     <script src="js/randombackground.js"></script>
   </section>
   <br>
 
+  <!-- Tabellen -->
   <section id="drivers" class="container">
     <div class="row">
       <div class="col-md-10 col-sm-12">
@@ -61,9 +73,17 @@
         <p>Sortiert nach WM-Position</p>
         <p>Die Tabelle kann mit einem Klick auf den Spalten-Titel <strong>sortiert werden!</strong></p>
         <?php
+
+        /* SQL Abfrage in Variabel speichern */
                    $currentdriverssql = "SELECT * FROM v_current_driver_teams_wins";
+
+                   /* Überprüfen, ob Datenbank das SQL ausführen kann */
                    if($currentdriversresult = mysqli_query($link, $currentdriverssql)){
+
+                     /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                    if(mysqli_num_rows($currentdriversresult) > 0){
+
+                    /* Tabellen Kopfzeile erstellen */
                        echo '<table id="drivers-table" class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
@@ -75,18 +95,20 @@
                                echo "</tr>";
                            echo "</thead>";
                            echo "<tbody>";
+
+                           /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                            while($currentdriversrow = mysqli_fetch_array($currentdriversresult)){
                                echo "<tr>";
                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$currentdriversrow['driver_nationality']] . "/shiny/32.png'> " . $currentdriversrow['driver_name'] . "</td>";
                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$currentdriversrow['constructor_nationality']] . "/shiny/32.png'> " . $currentdriversrow['constructor_name'] . "</td>";
                                    echo "<td>" . $currentdriversrow['driver_worldchampions'] . "</td>";
+                                   /* DB hat hier "null" gespeichert statt '0', darum muss das mit einer IF Klausel abgefangen werden */
                                    if(is_null($currentdriversrow['racewins'])) {
                                     echo "<td>0</td>";
                                     } else {
                                       echo "<td>" . $currentdriversrow['racewins'] . "</td>";
                                      }
-                                   //echo "<td>" . $row['url'] . "</td>";
-                                   echo "<td><a class='custom-link' href='" . $currentdriversrow['url'] . "' target='_blank'>Link</a></td>";
+                                                                     echo "<td><a class='custom-link' href='" . $currentdriversrow['url'] . "' target='_blank'>Link</a></td>";
                                echo "</tr>";
                            }
                           }
@@ -99,7 +121,7 @@
     </div>
   </section>
 
-
+  <!-- Eigenes Script, JQuery und Bootstrap Javascripts hinzufügen -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
     integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
   </script>
@@ -107,6 +129,8 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+  <!-- DataTable (Sortierfunktion) Einstellungen -->
   <script>
     $(document).ready(function () {
       $('#drivers-table').dataTable({

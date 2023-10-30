@@ -6,9 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formula 1 DB - Rennen</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+
+  <!-- Eigenes Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+
+  <!-- Bootstrap Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <!-- Datenbankzugriff -->
   <?php
                 require_once "php/config.php";
     ?>
@@ -16,6 +22,7 @@
 </head>
 
 <body>
+  <!-- Navigationsleiste oben -->
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -47,15 +54,19 @@
     </div>
   </nav>
 
-  <!-- Rennen-Banner -->
+  <!-- Banner mit Seitentitel -->
   <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
     <h1 id="subpage-text">Rennen</h1>
+    <!-- Javascript, damit jedes Mal ein anderes Bild erscheint -->
     <script src="js/randombackground.js"></script>
   </section>
   <br>
+
+  <!-- Auswahl des Rennens -->
   <section id="race-selection" class="container">
     <div class="row">
       <?php
+      /* Wenn Link keine Renn-ID mitliefert, den Text anzeigen */
           if(empty($raceid)){
             echo "<h4>Bitte Rennen auswählen:</h4>";
           }
@@ -69,7 +80,7 @@
             aria-expanded="false">
             <?php
              if (isset($_GET['year'])) {
-              // Die Variable ist in der URL vorhanden
+              // Das Jahr ist im Link vorhanden
               $year = $_GET['year'];
               if (empty($year)){
                 echo "Jahr auswählen";
@@ -77,18 +88,25 @@
               echo "$year";
               }
           } else {
-              // Die Variable fehlt in der URL
+              // Das Jahr fehlt im Link
               echo "Jahr auswählen";
           };
           
              ?>
           </button>
+          <!-- Jahres Auswahl Dropdown -->
           <ul class="dropdown-menu">
             <?php
+            /* SQL Abfrage in Variabel speichern */
                 $years_sql = "SELECT DISTINCT year FROM races ORDER BY year DESC;";
+
+                /* Überprüfen, ob Datenbank das SQL ausführen kann */
                 $years_result = mysqli_query($link, $years_sql);
+
+                 /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                 if(mysqli_num_rows($years_result) > 0){
                   while($years_row = mysqli_fetch_array($years_result)){
+                    /* Für jedes Jahr ein Dropdown Eintrag erstellen */
                     echo "<li><a class='dropdown-item' href='race.php?year=" . $years_row['year'] . "'>" . $years_row['year'] . "</a></li>";
                   };
                 };
@@ -103,7 +121,7 @@
             aria-expanded="false">
             <?php
                if (isset($_GET['raceid'])) {
-                // Die Variable ist in der URL vorhanden
+                // Renn-ID ist in der URL vorhanden
                 $raceid = $_GET['raceid'];
                 if (empty($raceid)){
                   echo "Rennen auswählen";
@@ -118,7 +136,7 @@
               
                 }
             } else {
-                // Die Variable fehlt in der URL
+                // Renn-ID fehlt in der URL
                 echo "Rennen auswählen";
             };
             
@@ -126,12 +144,22 @@
           </button>
           <ul class="dropdown-menu">
             <?php
+            /* Wenn noch kein Jahr ausgewählt wurde */
               if (empty($year)){
                 echo "<li>Kein Jahr ausgewählt!</li>";
               }else{
+
+                /* Falls ein Jahr gewählt wurde */
+                /* SQL Abfrage in Variabel speichern */
                 $race_sql = "SELECT raceid, name FROM races WHERE year = $year ORDER BY raceid ASC;";
+
+                /* Überprüfen, ob Datenbank das SQL ausführen kann */
                 $race_result = mysqli_query($link, $race_sql);
+
+                /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                 if(mysqli_num_rows($race_result) > 0){
+
+                  /* Für jedes Rennen ein Dropdown Eintrag erstellen */
                   while($race_row = mysqli_fetch_array($race_result)){
                     echo "<li><a class='dropdown-item' href='race.php?year=$year&raceid=" . $race_row['raceid'] . "'>" . $race_row['name'] . "</a></li>";
                   }
@@ -146,15 +174,19 @@
 
   </section>
   <br>
+
+  <!-- Tabellen -->
   <section id="race-details" class="container">
     <div class="row">
       <div class="col-md-10 col-sm-12">
-        
+
         <?php
               if(empty($raceid)){
                 echo "";
               }else{
                 echo "<h2>Rennresultate</h2>";
+
+                /* SQL Abfrage in Variabel speichern */
                 $racedetails_sql = "SELECT res.position AS Position,dri.driverid AS driverid, CONCAT(dri.forename, ' ', dri.surname) AS Driver, con.name AS Constructor, con.constructorId, sta.status AS Status, res.points AS Punkte, dri.nationality AS driver_nationality, con.nationality AS constructor_nationality
                 FROM races rac
                 INNER JOIN results res ON res.raceId = rac.raceId
@@ -171,8 +203,14 @@
 				res.position;
                 
                 ";
+
+                /* Überprüfen, ob Datenbank das SQL ausführen kann */
                     if($racedetails_result = mysqli_query($link, $racedetails_sql)){
+
+                       /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                     if(mysqli_num_rows($racedetails_result) > 0){
+
+                      /* Tabellen Kopfzeile erstellen */
                         echo '<table class="table  table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
@@ -184,6 +222,8 @@
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
+
+                            /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                             while($racedetails_row = mysqli_fetch_array($racedetails_result)){
                                 echo "<tr>";
                                     echo "<td>" . $racedetails_row['Position'] .  "</td>";
@@ -205,6 +245,7 @@
       </div>
     </div>
 
+    <!-- Qualifying Informationen -->
     <div class="row">
       <div class="col-md-10 col-sm-12">
         <br>
@@ -213,12 +254,20 @@
                 echo "";
               }else{
                 echo "<h2>Qualifying</h2>";
+
+                /* SQL Abfrage in Variabel speichern */
                 $qualifying_sql = "SELECT qua.position, dri.driverid, CONCAT(dri.forename, ' ', dri.surname) AS driver_name, dri.nationality AS driver_nationality, qua.q1, qua.q2, qua.q3
                 FROM qualifying qua
                 INNER JOIN drivers dri on dri.driverid = qua.driverid
                 WHERE qua.raceid = $raceid;";
+
+                /* Überprüfen, ob Datenbank das SQL ausführen kann */
                     if($qualifying_result = mysqli_query($link, $qualifying_sql)){
+
+                       /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                     if(mysqli_num_rows($qualifying_result) > 0){
+
+                      /* Tabellen Kopfzeile erstellen */
                         echo '<table class="table  table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
@@ -230,6 +279,8 @@
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
+
+                            /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                             while($qualying_row = mysqli_fetch_array($qualifying_result)){
                                 echo "<tr>";
                                     echo "<td>" . $qualying_row['position'] .  "</td>";
@@ -258,12 +309,13 @@
 
 
 
-
+  <!-- Eigenes Script, JQuery und Bootstrap Javascripts hinzufügen -->
   <script src="js/modalTrigger.js">
   </script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous">
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">

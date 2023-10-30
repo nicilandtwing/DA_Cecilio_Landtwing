@@ -6,15 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formula 1 DB - Saisons</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+  <!-- Eigenes Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+
+  <!-- Bootstrap Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <!-- Datenbankzugriff -->
   <?php
                 require_once "php/config.php";
     ?>
 </head>
 
 <body>
+
+  <!-- Navigationsleiste oben -->
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -46,22 +53,29 @@
     </div>
   </nav>
 
-  <!-- Saisons-Banner -->
+  <!-- Banner mit Seitentitel -->
   <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
     <h1 id="subpage-text">Saisons</h1>
+
+    <!-- Javascript, damit jedes Mal ein anderes Bild erscheint -->
     <script src="js/randombackground.js"></script>
   </section>
   <br>
 
   <section id="season-race-list" class="container">
     <?php 
+/* Jahr aus dem Link lesen */
         $year = $_GET["year"];
+
+        /* SQL Abfrage in Variabel speichern */
         $champion_sql = "SELECT * FROM v_seasons_with_world_champions WHERE year='$year';";
+
+        /* SQL Abfrage ausführen */
     $champion_result = mysqli_query($link, $champion_sql);
 
   ?>
 
-
+    <!-- Infotext zur Saison -->
     <div class="row">
       <div class="col-md-10 col-sm-10">
         <h1>Saison <?php echo "$year"?></h1>
@@ -87,6 +101,7 @@
         <p>Klicke <a class="custom-link" href="season-list.php">hier</a>, um zurück zu allen Saisons zu kommen.</p>
 
         <?php 
+        /* SQL Abfrage in Variabel speichern */
                     $season_sql = "SELECT
                     rac.raceid, rac.year, rac.name AS 'Grand-Prix',
                     rac.round AS 'Runde',
@@ -130,8 +145,13 @@
                 WHERE rac.year = $year
                 ORDER BY rac.round ASC;";
                 
+                /* Überprüfen, ob Datenbank das SQL ausführen kann */
                     if($season_result = mysqli_query($link, $season_sql)){
+
+                      /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                     if(mysqli_num_rows($season_result) > 0){
+
+                      /* Tabellen Kopfzeile erstellen */
                         echo '<table class="table table-striped table-hover table-responsive">';
                             echo "<thead>";
                                 echo "<tr>";
@@ -144,6 +164,8 @@
                                 echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
+
+                            /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                             while($season_row = mysqli_fetch_array($season_result)){
                                 echo "<tr>";
                                     echo "<td>" . $season_row['Runde'] . "</td>";
@@ -171,6 +193,7 @@
   </section>
 
 
+  <!-- Eigenes Script, JQuery und Bootstrap Javascripts hinzufügen -->
   <script src="js/modalTrigger.js">
   </script>
 

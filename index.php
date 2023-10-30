@@ -6,15 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Formula 1 DB</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+  <!-- Eigenes Stylesheet -->
   <link href="css/style.css" rel="stylesheet">
+  <!-- Bootstrap Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <!-- Datenbankzugriff -->
   <?php
                 require_once "php/config.php";
     ?>
 </head>
 
 <body>
+  <!-- Navigationsleiste oben -->
   <nav class="navbar navbar-dark bg-dark navbar-expand-md">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -50,19 +54,28 @@
   <section id="random-image" class="d-flex flex-column justify-content-center align-items-center container-fluid">
     <h1 id="welcome-text">Willkommen bei</h1>
     <img id="welcome-text-logo" src="images/Logo.png" alt="Formula 1 DB Logo">
+    <!-- Javascript, damit jedes Mal ein anderes Bild erscheint -->
     <script src="js/randombackground.js"></script>
   </section>
   <br>
 
+  <!-- Tabellen -->
   <section id="every-season" class="container">
 
     <div class="row">
       <div class="col-lg-7 col-md-10 col-sm-12">
         <h1>Letztes Rennergebnis</h1>
         <?php
+                  /* SQL Abfrage in Variabel speichern */
                   $latest_race_sql = "SELECT * FROM v_latest_race";
+
+                  /* Überprüfen, ob Datenbank das SQL ausführen kann */
                   if($latest_race_result = mysqli_query($link, $latest_race_sql)){
+                    
+                    /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                     if(mysqli_num_rows($latest_race_result) > 0){
+
+                      /* Resultat des Select Befehles ausgeben und auf der Webseite mit Echo darstellen */
                       while($latest_race_row = mysqli_fetch_array($latest_race_result)){
                         echo '<p> Das letzte Rennen war der <strong>' . $latest_race_row['year'] . ' ' . $latest_race_row['race_name'] . '</strong> auf der Strecke <strong>' . $latest_race_row['circuit_name'] . '</strong> in <strong>' . $latest_race_row['circuit_location'] . '.</strong></p>';
                       }
@@ -71,9 +84,16 @@
                 ?>
 
         <?php
+                  /* SQL Abfrage in Variabel speichern */
                    $latest_race_result_sql = "SELECT * FROM v_latest_race_result";
+
+                   /* Überprüfen, ob Datenbank das SQL ausführen kann */
                    if($latest_race_result_result = mysqli_query($link, $latest_race_result_sql)){
+
+                    /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                    if(mysqli_num_rows($latest_race_result_result) > 0){
+                       
+                      /* Tabellen Kopfzeile erstellen */
                        echo '<table class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
@@ -85,6 +105,8 @@
                                echo "</tr>";
                            echo "</thead>";
                            echo "<tbody>";
+
+                           /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                            while($latest_race_result_row = mysqli_fetch_array($latest_race_result_result)){
                                echo "<tr>";
                                    echo "<td>" . $latest_race_result_row['position'] . "</td>";
@@ -106,8 +128,12 @@
         <p>Die Tabelle zeigt die momentane Fahrer-Rangliste (Top 5).</p><br>
         <?php
                    $current_drivers_position_sql = "SELECT * FROM v_current_drivers_position LIMIT 5";
-                   if($current_drivers_position_result = mysqli_query($link, $current_drivers_position_sql)){
+                   /* Überprüfen, ob Datenbank das SQL ausführen kann */
+if($current_drivers_position_result = mysqli_query($link, $current_drivers_position_sql)){
+   /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                    if(mysqli_num_rows($current_drivers_position_result) > 0){
+                     /* Falls das Resultat mehr als 0 Reihen zurückgibt */
+/* Tabellen Kopfzeile erstellen */
                        echo '<table class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
@@ -119,6 +145,7 @@
                                echo "</tr>";
                            echo "</thead>";
                            echo "<tbody>";
+                           /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                            while($current_drivers_position_row = mysqli_fetch_array($current_drivers_position_result)){
                                echo "<tr>";
                                    echo "<td>" . $current_drivers_position_row['position'] . "</td>";
@@ -136,9 +163,16 @@
 
         <h1>Teams-Rangliste</h1><br>
         <?php
+        /* SQL Abfrage in Variabel speichern */
                    $current_constructors_position_sql = "SELECT * FROM v_current_constructors_position";
+
+                   /* Überprüfen, ob Datenbank das SQL ausführen kann */
                    if($current_constructors_position_result = mysqli_query($link, $current_constructors_position_sql)){
+
+                     /* Falls das Resultat mehr als 0 Reihen zurückgibt */
                    if(mysqli_num_rows($current_constructors_position_result) > 0){
+
+                    /* Tabellen Kopfzeile erstellen */
                        echo '<table class="table table-striped table-hover table-responsive">';
                            echo "<thead>";
                                echo "<tr>";
@@ -149,6 +183,8 @@
                                echo "</tr>";
                            echo "</thead>";
                            echo "<tbody>";
+
+                           /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                            while($current_constructors_position_row = mysqli_fetch_array($current_constructors_position_result)){
                                echo "<tr>";
                                    echo "<td>" . $current_constructors_position_row['position'] . "</td>";
@@ -165,7 +201,7 @@
       </div>
     </div>
   </section>
-
+  <!-- Eigenes Script, JQuery und Bootstrap Javascripts hinzufügen -->
   <script src="js/modalTrigger.js">
   </script>
 

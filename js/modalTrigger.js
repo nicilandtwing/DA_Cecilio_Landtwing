@@ -1,36 +1,40 @@
-// Function to load the driver modal content using AJAX
+// Funktionsbezeichnung, Fehrer ID Variabel laden
 function loadDriverModal(js_driverId) {
+
+    // Wenn ein Fahrer geladen wurde, das Modal zuerst löschen 
     if ($('#driverDetails').length) {
   $('#driverDetails').remove();
 }
-      // Use AJAX to load the modal content from modal.php
+      // Per Ajax das Modal von driverModal.php Laden (im Link wird die Fahrer ID mitgegeben)
       $.ajax({
           type: 'GET',
           url: 'driverModal.php?driver_id=' + js_driverId,
           success: function (data) {
-              // Append the modal content to the body
+              // Das Modal zum momentanen HTML hinzufügen
               $('body').append(data);
 
-              // Show the modal
+              // Das Modal anzeigen
               $('#driverDetails').modal('show');
           }
       });
   }
 
-  // Function to load the driver modal content using AJAX
+  // Funktionsbezeichnung, Team ID Variabel laden
 function loadTeamModal(js_constructorId) {
+
+    // Wenn ein Team geladen wurde, das Modal zuerst löschen 
     if ($('#teamDetails').length) {
   $('#teamDetails').remove();
 }
-      // Use AJAX to load the modal content from modal.php
+      // Per Ajax das Modal von driverModal.php Laden (im Link wird die Team ID mitgegeben)
       $.ajax({
           type: 'GET',
           url: 'teamModal.php?constructor_id=' + js_constructorId,
           success: function (data) {
-              // Append the modal content to the body
+               // Das Modal zum momentanen HTML hinzufügen
               $('body').append(data);
 
-              // Show the modal
+              // Das Modal anzeigen
               $('#teamDetails').modal('show');
           }
       });
