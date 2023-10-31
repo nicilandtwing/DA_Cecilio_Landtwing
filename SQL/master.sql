@@ -1,4 +1,29 @@
 /* == ALLGEMEIN == */
+/* Auflistung aller Saisons mit Weltmeistern */
+CREATE OR REPLACE VIEW v_seasons_with_world_champions AS
+SELECT last_race_of_year, year,  CONCAT(dri.forename, ' ', dri.surname) AS driver_name, drs.points AS drspoints, con.name as constructor_name,
+cos.points AS constructor_points, dri.driverId, con.constructorId, dri.nationality as driver_nationality, con.nationality as
+constructor_nationality
+FROM (SELECT races.year AS year, max(races.raceid) AS last_race_of_year FROM races GROUP BY year ORDER BY year DESC) sub
+INNER JOIN driverStandings drs ON drs.raceid = last_race_of_year
+INNER JOIN drivers dri ON drs.driverId = dri.driverId
+LEFT JOIN constructorStandings cos ON cos.raceid = last_race_of_year
+LEFT JOIN constructors con ON cos.constructorId = con.constructorId
+WHERE drs.position = 1
+AND (cos.position = 1 OR cos.position IS NULL)
+GROUP BY year
+ORDER BY year DESC;
+
+/* Auflistung aktuelle Konstruktorensiege*/
+CREATE OR REPLACE VIEW v_constructorwinners AS
+SELECT con.name AS constructor_name, count(con.constructorId) AS constructor_wins, con.constructorId
+FROM races rac
+INNER JOIN results res ON rac.raceId = res.raceId
+INNER JOIN constructors con ON res.constructorId = con.constructorId
+WHERE res.position = 1
+GROUP BY con.constructorId
+ORDER BY rac.date DESC;
+
 /* Momentane Fahrer-Team Kombination */
 CREATE OR REPLACE VIEW v_current_driver_teams AS
 SELECT dri.driverid, CONCAT(dri.forename, ' ', dri.surname) AS driver_name, con.name AS constructor_name, con.nationality as constructor_nationality, con.constructorId AS constructor_id
