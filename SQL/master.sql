@@ -14,7 +14,7 @@ AND (cos.position = 1 OR cos.position IS NULL)
 GROUP BY year
 ORDER BY year DESC;
 
-/* Auflistung aktuelle Konstruktorensiege*/
+/* Auflistung aller Renniege aller Teams*/
 CREATE OR REPLACE VIEW v_constructorwinners AS
 SELECT con.name AS constructor_name, count(con.constructorId) AS constructor_wins, con.constructorId
 FROM races rac
@@ -108,20 +108,8 @@ GROUP BY con.constructorID
 ORDER BY cos.position;
 
 /* == SAISON UNTERSEITE == */
-/* Auflistung aller Saisons mit Weltmeistern */
-CREATE OR REPLACE VIEW v_seasons_with_world_champions AS
-SELECT last_race_of_year, year,  CONCAT(dri.forename, ' ', dri.surname) AS driver_name, drs.points AS drspoints, con.name as constructor_name,
-cos.points AS constructor_points, dri.driverId, con.constructorId, dri.nationality as driver_nationality, con.nationality as
-constructor_nationality
-FROM (SELECT races.year AS year, max(races.raceid) AS last_race_of_year FROM races GROUP BY year ORDER BY year DESC) sub
-INNER JOIN driverStandings drs ON drs.raceid = last_race_of_year
-INNER JOIN drivers dri ON drs.driverId = dri.driverId
-LEFT JOIN constructorStandings cos ON cos.raceid = last_race_of_year
-LEFT JOIN constructors con ON cos.constructorId = con.constructorId
-WHERE drs.position = 1
-AND (cos.position = 1 OR cos.position IS NULL)
-GROUP BY year
-ORDER BY year DESC;
+/* verwenden der bereits vorhandenen "v_seasons_with_world_champions" */
+
 
 /* Indexe für schnelleres Laden der Rennen */
 ALTER TABLE `races` ADD INDEX (`year`,`round`);
@@ -161,16 +149,6 @@ INNER JOIN results res ON con.constructorId = res.constructorId
 INNER JOIN races rac ON res.raceId = rac.raceId
 WHERE rac.year = (SELECT MAX(year) FROM races)
 GROUP BY con.constructorId;
-
-/* Auflistung aktuelle Konstruktorensiege*/
-CREATE OR REPLACE VIEW v_constructorwinners AS
-SELECT con.name AS constructor_name, count(con.constructorId) AS constructor_wins, con.constructorId
-FROM races rac
-INNER JOIN results res ON rac.raceId = res.raceId
-INNER JOIN constructors con ON res.constructorId = con.constructorId
-WHERE res.position = 1
-GROUP BY con.constructorId
-ORDER BY rac.date DESC;
 
 /* Auflistung aktuelle Konstruktoren mit Rennsiegen und Weltmeisterschaften*/
 CREATE OR REPLACE VIEW v_current_teams_wins AS
