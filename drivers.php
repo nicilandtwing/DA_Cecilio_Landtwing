@@ -121,6 +121,27 @@
     </div>
   </section>
 
+  <!-- Footer -->
+  <section id="footer" class="container-fluid bg-dark text-white">
+    <footer>
+      <div class="row justify-content-center">
+        <div class="col-3 justify-content-center d-flex">
+          <p>Diplomarbeit 2023</p>
+        </div>
+        <div class="col-3 justify-content-center d-flex">
+          <p>TEKO Schweizerische Fachschule</p>
+        </div>
+        <div class="col-3 justify-content-center d-flex">
+          <p>Francisco Cecilio | Nicolas Landtwing</p>
+        </div>
+        <div class="col-3 justify-content-center d-flex">
+          <p>Daten bereitgestellt von <a href="https://ergast.com/mrd">Ergast</a>.</p>
+        </div>
+      </div>
+
+    </footer>
+  </section>
+
   <!-- Eigenes Script, JQuery und Bootstrap Javascripts hinzufügen -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
     integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">

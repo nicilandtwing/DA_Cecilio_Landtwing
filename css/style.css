@@ -44,3 +44,12 @@ td{
 .modalcell:hover{
     text-decoration:underline;
 }
+
+#footer{
+    padding-top: 2vh;
+    word-break:break-word;
+}
+#footer a{
+    color: white;
+    font-weight: bold;
+}
