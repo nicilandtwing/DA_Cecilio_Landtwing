@@ -98,7 +98,7 @@
                            echo "<tbody>";
 
                            
-/* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
+                  /* Für jede Reihe eine Tabellenreihe erstellen (Loop) */
                            while($currentteamsrow = mysqli_fetch_array($currentteamsresult)){
                                echo "<tr>";
                                    echo "<td><img src='https://flagsapi.com/" . $nationalityToCountryCode[$currentteamsrow['constructor_nationality']] . "/shiny/32.png'> " . $currentteamsrow['name'] . "</td>";
@@ -135,7 +135,7 @@
           <p>Francisco Cecilio | Nicolas Landtwing</p>
         </div>
         <div class="col-3 justify-content-center d-flex">
-        <p>Daten bereitgestellt von <a href="https://ergast.com/mrd">Ergast</a>.</p>
+          <p>Daten bereitgestellt von <a href="https://ergast.com/mrd">Ergast</a>.</p>
         </div>
       </div>
 
