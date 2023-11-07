@@ -303,10 +303,13 @@
             }?>
       </div>
     </div>
+  
   </section>
 
+  <br>
+  <br>
   <!-- Footer -->
-  <section id="footer" class="container-fluid bg-dark text-white">
+  <section id="footer" class="container-fluid bg-dark text-white fixed-bottom">
     <footer>
       <div class="row justify-content-center">
         <div class="col-3 justify-content-center d-flex">

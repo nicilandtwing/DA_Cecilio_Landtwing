@@ -26,5 +26,9 @@ mysql -u root -e "CREATE DATABASE f1db;"
 echo "Inhalt der neuen f1db.sql in die neue Datenbank schreiben"
 mysql -u root f1db < /usr/local/bin/f1db.sql
 
+mysql -u root -e "SET PERSIST sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+mysql -u root -e "SET PERSIST sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_IN_DATE',''));"
+mysql -u root -e "SET PERSIST sql_mode=(SELECT REPLACE(@@sql_mode,'NO_ZERO_DATE',''));"
+
 echo "Eigene Views und Index Datei ausführen"
 mysql -u root f1db < /usr/local/bin/master.sql
